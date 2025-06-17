@@ -2,7 +2,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import DetailsCard from "./detailsCard";
-export function Card({id, name, price, cardImage, isNew, toggleFavorite, favorites, imagepng}) {
+
+export function Card({id, name, price, cardImage, isNew, imagepng, type, sale, description, size, color, material, favorites, toggleFavorite}) {
   const [details, setDetails] = useState(false);
   const closeDetails = () => {
     setDetails(false);
@@ -12,7 +13,7 @@ export function Card({id, name, price, cardImage, isNew, toggleFavorite, favorit
   }
 
     return(<>
-        <div key={id} className="relative dark:bg-black p-4 rounded-xl shadow-sm shadow-amber-50 hover:shadow-md transition-all duration-300 cursor-pointer" onClick={openDetails}>
+        <div key={id} className="relative dark:bg-black p-4 rounded-xl shadow-sm shadow-amber-50 hover:shadow-md transition-all duration-300 cursor-pointer w-[238px] h-[300]" onClick={openDetails}>
             {/* Etiqueta "NEW" */}
             {isNew && (
               <span className="absolute top-2 left-2 bg-red-600 text-xs px-2 py-1 rounded-full"> NEW </span>
@@ -32,11 +33,11 @@ export function Card({id, name, price, cardImage, isNew, toggleFavorite, favorit
             </div>
 
             {/* Nombre del producto */}
-            <h3 className="text-lg font-medium mt-10 text-center">{name}</h3>
+            <h3 className="text-base font-medium mt-10 text-center">{name}</h3>
 
             {/* Precio */}
             <p className="text-gray-400 text-center">{price}</p>
-            <DetailsCard id={id} name={name} price={price} cardImages={imagepng} isNew={isNew} toggleFavorite={toggleFavorite} favorites={favorites} details={details} closeDetails={closeDetails}/>
+            <DetailsCard id={id} name={name} price={price} cardImage={cardImage} isNew={isNew} imagepng={imagepng} type={type} sale={sale} description={description} size={size} color={color} material={material} details={details} closeDetails={closeDetails}/>
         </div>
     </>)
 }

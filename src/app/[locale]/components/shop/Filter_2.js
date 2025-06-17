@@ -7,7 +7,7 @@ export default function Filter_2({setIsOpenF, isOpenF}) {
   const categories = [
     t('jackets'), t('hoodies'), t('shirts'),
     t('tshirts'), t('vests'), t('accessories'),
-    t('jeans'), t('bags'), t('shoes'), t('bigsales')
+    t('jeans'), t('bags'), t('shoes')
   ];
   
   return (

@@ -1,30 +1,11 @@
 import Image from "next/image";
 
 // Componente DetailsCard recibe varias props para mostrar detalles de un producto específico.
-export default function DetailsCard({ id, name, price, cardImages, isNew, toggleFavorite, favorites, details, closeDetails }) {
+export default function DetailsCard({id, name, price, cardImage, isNew, imagepng, type, sale, description, size, color, material , details, closeDetails }) {
     // Si no hay detalles (details === false o null), no renderiza nada.
     if (!details) return null; 
-
     return (
-        // Contenedor principal que cubre toda la pantalla (fixed, inset-0)
-        // Centra vertical y horizontalmente el contenido con flexbox
-        // Fondo semi-transparente negro para overlay
-        // z-10 para asegurarse que esté sobre otros elementos
-        // overflow-y-auto permite scroll vertical si el contenido es alto
-        // touch-none evita eventos táctiles en el overlay (no sé si es intencional)
         <div className="overflow-x-hidden fixed inset-0 flex items-center justify-center bg-black/80 z-10 cursor-default overflow-y-auto touch-none" >
-            
-            {/* 
-              Contenedor interno para el contenido de la tarjeta:
-              - Fondo oscuro #181818, con padding, bordes redondeados, texto blanco
-              - relative para control de posicionamiento interno
-              - z-20 para estar encima del overlay
-              - ancho fijo con clases custom (w-5xl, max-md:w-4xl)
-              - altura máxima limitada a 150vh para scroll vertical
-              - flex para centrar elementos hijos
-              - en pantallas pequeñas (max-sm), cambia el layout a columna, altura completa y fondo negro sólido
-              - onClick detiene la propagación para que clicks dentro no cierren la modal (suponiendo que fuera así)
-            */}
             <div className="bg-[#181818] overflow-x-hidden p-5 rounded-lg relative z-20 text-white w-5xl max-md:w-4xl max-h-[150vh] overflow-y-auto flex justify-center items-center max-sm:flex-col max-sm:h-full max-sm:bg-black" onClick={(e) => e.stopPropagation()}>
                 
                 {/* Columna izquierda: imagen, botón volver, precio */}
@@ -32,10 +13,6 @@ export default function DetailsCard({ id, name, price, cardImages, isNew, toggle
                     
                     {/* 
                       Botón volver con icono material-symbols
-                      - Fondo blanco, texto negro, tamaño pequeño
-                      - Rounded para apariencia circular
-                      - cursor-pointer para indicar que es clickable
-                      - onClick: detiene propagación y llama closeDetails para cerrar la tarjeta
                     */}
                     <span 
                       className="material-symbols-outlined bg-white text-black px-1 py-1 rounded-4xl cursor-pointer w-8 flex items-center justify-center" 
@@ -49,7 +26,7 @@ export default function DetailsCard({ id, name, price, cardImages, isNew, toggle
                       width={100} 
                       height={100} 
                       className="w-[90%] mx-auto max-sm:w-[80%] max-sm:border-amber-50 max-sm:rounded-2xl max-sm:p-3" 
-                      src={cardImages} 
+                      src={imagepng} 
                       alt={name}
                     />
 
@@ -90,38 +67,37 @@ export default function DetailsCard({ id, name, price, cardImages, isNew, toggle
                     {/* Nombre del producto */}
                     <h1 className="text-3xl font-bold uppercase max-sm:text-xl mb-5">{name}</h1>
 
-                    {/* Navegación de pestañas (no funcional, solo visual) */}
-                    <ul className="flex gap-2 my-2 text-xs w-full justify-between max-md:mb-2 max-sm:text-[10px] max-sm:gap-0">
-                        <li className="cursor-pointer">DETAILS</li>
-                        <li className="cursor-pointer">MATERIALS</li>
-                        <li className="cursor-pointer">SIZE GUIDE</li>
-                        <li className="cursor-pointer">SHIPPING</li>
-                    </ul>
-
                     {/* Descripción de ejemplo (placeholder) */}
                     <p className="text-xs mb-2 max-md:text-[10px] max-md:mb-2">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                      {description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}
                     </p>
 
                     {/* Sección tallas disponibles */}
                     <h3 className="text-2xs max-sm:text-xs">SIZE</h3>
-                    <ul className="flex gap-10 my-2 mb-2 w-full text-xs">
-                        <li className="cursor-pointer">XS</li>
-                        <li className="cursor-pointer">S</li>
-                        <li className="cursor-pointer">M</li>
-                        <li className="cursor-pointer">L</li>
-                        <li className="cursor-pointer">XL</li>
+                    <ul className="flex gap-2 my-2 mb-2 w-full text-xs">
+                        {size.map((s, index) => (
+                            <li 
+                              key={index} 
+                              className="cursor-pointer px-2 py-1 border border-white/60 rounded hover:bg-white/20 transition-colors"
+                              onClick={() => console.log(`Selected size: ${s}`)}
+                            >
+                                {s}
+                            </li>
+                        ))}
                     </ul>
 
                     {/* Sección colores disponibles */}
                     <h3>COLOR</h3>
                     <ul className="flex gap-2 my-2 max-sm:pb-30">
-                        <li className="cursor-pointer">RED</li>
-                        <li className="cursor-pointer">BLUE</li>
-                        <li className="cursor-pointer">GREEN</li>
+                        {color.map((c, index) => (
+                            <li 
+                              key={index} 
+                              className="cursor-pointer px-2 py-1 border border-white/60 rounded hover:bg-white/20 transition-colors"
+                              onClick={() => console.log(`Selected color: ${c}`)}
+                            >
+                                {c}
+                            </li>
+                        ))}
                     </ul>
 
                 </div>

@@ -7,7 +7,7 @@ import { products } from "@/app/[locale]/products.test"; // Datos de productos d
 import { useTranslations } from "use-intl"; // Hook para traducciones multilingües
 
 // Componente principal que muestra productos destacados
-export default function FeaturedProducts({ isOpenF }) {
+export default function Catalog({ isOpenF }) {
   // Estado para almacenar productos marcados como favoritos (por id)
   const [favorites, setFavorites] = useState({});
 
@@ -30,11 +30,8 @@ export default function FeaturedProducts({ isOpenF }) {
       {/* Grilla de productos */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products
-          // Filtra productos por tipo si hay un filtro activo (isOpenF distinto a "none")
           .filter((product) => isOpenF === "none" || product.type === isOpenF)
-          // Limita los productos mostrados según showMore
           .slice(0, productsToShow)
-          // Mapea cada producto a una Card
           .map((product) => (
             <Card
               key={product.id}
@@ -43,25 +40,32 @@ export default function FeaturedProducts({ isOpenF }) {
               price={product.price}
               cardImage={product.image}
               isNew={product.isNew}
-              toggleFavorite={toggleFavorite}
-              favorites={favorites}
               imagepng={product.imagepng}
+              type={product.type}
+              sale={product.sale}
+              description={product.description}
+              size={product.size}
+              color={product.color}
+              material={product.material}
+              favorites={favorites}
+              toggleFavorite={toggleFavorite}
             />
         ))}
       </div>
 
-      {productsToShow <
-        products.filter((product) => isOpenF === "none" || product.type === isOpenF).length && (
-        <div className="flex justify-center gap-4 m-10">
+      {(productsToShow < products.filter((product) => isOpenF === "none" || product.type === isOpenF).length || showMore > 1) && (
+        <div className="flex justify-center gap-4 m-10 max-sm:flex-col max-sm:items-center">
           {/* Botón "Ver más" */}
-          <button
-            className="px-4 py-2 bg-zinc-800 text-white rounded-lg hover:bg-zinc-700 transition-all"
-            onClick={() => setShowMore((prev) => prev + 1)}
-          >
-            {t("showMore")}
-          </button>
+          {productsToShow < products.filter((product) => isOpenF === "none" || product.type === isOpenF).length && (
+            <button
+              className="px-4 py-2 bg-zinc-800 text-white rounded-lg hover:bg-zinc-700 transition-all"
+              onClick={() => setShowMore((prev) => prev + 1)}
+            >
+              {t("showMore")}
+            </button>
+          )}
 
-          {/* Botón "Ver menos" solo si showMore > 1 */}
+          {/* Botón "Ver menos" */}
           {showMore > 1 && (
             <button
               className="px-4 py-2 bg-zinc-800 text-white rounded-lg hover:bg-zinc-500 transition-all"
@@ -72,6 +76,7 @@ export default function FeaturedProducts({ isOpenF }) {
           )}
         </div>
       )}
+
     </section>
   );
 }
